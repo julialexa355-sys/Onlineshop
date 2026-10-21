@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NOVA STORE — Elektronik & Aksesori</title>
+<style>
+:root{--ink:#151515;--muted:#666;--line:#e8e8e8;--bg:#f6f7f9;--accent:#ff6b35}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:var(--bg)}
+header{background:#111;color:white;padding:16px clamp(16px,5vw,72px);display:flex;align-items:center;justify-content:space-between;gap:14px;position:sticky;top:0;z-index:5}
+.logo{font-weight:900;letter-spacing:1.8px;font-size:22px}.logo span{color:var(--accent)}
+button,input,select,textarea{font:inherit}.cart-button{border:0;border-radius:9px;padding:11px 14px;background:white;color:#111;font-weight:700;cursor:pointer}
+.hero{background:linear-gradient(120deg,#171717,#30343b);color:white;padding:54px clamp(16px,7vw,100px);display:flex;align-items:center;justify-content:space-between;gap:24px}
+.hero h1{font-size:clamp(30px,5vw,54px);line-height:1.06;margin:0 0 14px;max-width:650px}.hero p{color:#d7d7d7;line-height:1.6;max-width:520px}.hero .tag{color:#ff9a73;font-size:12px;letter-spacing:2px;font-weight:bold}.hero-icon{font-size:clamp(72px,12vw,130px);filter:drop-shadow(0 10px 25px #0008)}
+main{padding:34px clamp(16px,5vw,72px) 54px;max-width:1440px;margin:auto}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap}.topline h2{margin:0;font-size:26px}.search{border:1px solid #ddd;background:white;border-radius:9px;padding:11px 13px;min-width:min(100%,260px)}
+.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.product{background:white;border:1px solid #eee;border-radius:14px;overflow:hidden;display:flex;flex-direction:column}.product .visual{height:175px;display:grid;place-items:center;background:linear-gradient(135deg,#f1f2f4,#e3e6ea);font-size:68px}.product-info{padding:16px;display:flex;flex-direction:column;flex:1}.category{font-size:11px;color:#777;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}.product h3{font-size:16px;margin:0 0 8px}.description{font-size:13px;color:var(--muted);line-height:1.45;min-height:38px}.price{font-size:17px;font-weight:800;margin:12px 0 14px}.add{margin-top:auto;border:0;background:#111;color:white;border-radius:8px;padding:12px;cursor:pointer;font-weight:bold}.add:hover{background:#333}
+.notice{font-size:13px;color:#555;margin-top:18px;line-height:1.5}
+footer{text-align:center;background:#111;color:#bbb;padding:24px;font-size:13px}
+.overlay{position:fixed;inset:0;background:#0008;z-index:10;display:none;align-items:flex-start;justify-content:center;padding:18px;overflow:auto}.overlay.open{display:flex}.modal{background:white;border-radius:16px;padding:22px;width:min(100%,650px);margin:auto;box-shadow:0 15px 50px #0003}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.modal h2{margin:0 0 14px}.close{border:0;background:#eee;border-radius:8px;padding:8px 11px;cursor:pointer}.cart-list{margin:14px 0}.cart-row{display:grid;grid-template-columns:1fr auto;gap:12px;border-bottom:1px solid var(--line);padding:12px 0}.cart-row small{display:block;color:#666;margin-top:4px}.qty{display:flex;align-items:center;gap:8px;margin-top:8px}.qty button{border:1px solid #ddd;background:#fafafa;border-radius:6px;padding:3px 9px;cursor:pointer}.remove{border:0;background:none;color:#b42318;cursor:pointer;font-size:12px;margin-top:5px}.total{display:flex;justify-content:space-between;font-size:18px;font-weight:800;padding:16px 0;border-top:1px solid #ddd}
+form{display:grid;grid-template-columns:1fr 1fr;gap:12px}form label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:bold}form .full{grid-column:1/-1}form input,form textarea,form select{width:100%;border:1px solid #d7d7d7;border-radius:8px;padding:11px;background:white}form textarea{min-height:76px;resize:vertical}.primary{width:100%;background:var(--accent);color:white;border:0;border-radius:9px;padding:13px;font-weight:800;cursor:pointer}.empty{padding:20px 0;color:#666;text-align:center}
+@media(max-width:900px){.products{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding-top:42px;padding-bottom:42px}}
+@media(max-width:480px){header{padding:13px 16px}.logo{font-size:18px}.cart-button{padding:10px;font-size:13px}.hero{padding:34px 18px}.hero-icon{font-size:66px}.products{gap:11px}.product .visual{height:125px;font-size:53px}.product-info{padding:11px}.product h3{font-size:14px}.description{font-size:12px}.price{font-size:15px}main{padding-top:25px}form{grid-template-columns:1fr}form .full{grid-column:auto}.modal{padding:17px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">NOVA <span>STORE</span></div>
+  <button class="cart-button" id="open-cart">🛒 Keranjang (<span id="cart-count">0</span>)</button>
+</header>
+<section class="hero">
+  <div><div class="tag">GADGETS • TECH • ACCESSORIES</div><h1>Teknologi yang mendukung harimu.</h1><p>Temukan aksesori elektronik pilihan dengan pengalaman belanja yang mudah dan nyaman.</p></div>
+  <div class="hero-icon" aria-hidden="true">🎧</div>
+</section>
+<main>
+  <div class="topline"><h2>Produk pilihan</h2><input class="search" id="search" placeholder="Cari produk..." aria-label="Cari produk"></div>
+  <section class="products" id="products"></section>
+  <p class="notice">Demo toko: produk dan harga contoh. Checkout ini hanya menampilkan ringkasan pesanan di browser; belum mengirim pesanan ke server atau memproses pembayaran.</p>
+</main>
+<footer>© 2026 NOVA STORE · Demo toko online</footer>
+
+<div class="overlay" id="cart-overlay" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+  <div class="modal">
+    <div class="modal-head"><h2 id="cart-title">Keranjang belanja</h2><button class="close" id="close-cart" aria-label="Tutup">✕</button></div>
+    <div id="cart-content"></div>
+    <div id="checkout-area" hidden>
+      <h2 style="margin-top:22px">Informasi pengiriman</h2>
+      <form id="checkout-form">
+        <label>Nama lengkap<input name="name" required autocomplete="name" placeholder="Nama penerima"></label>
+        <label>Nomor telepon<input name="phone" required type="tel" autocomplete="tel" placeholder="08xxxxxxxxxx"></label>
+        <label class="full">Alamat lengkap<textarea name="address" required autocomplete="street-address" placeholder="Jalan, nomor rumah, kelurahan, kecamatan"></textarea></label>
+        <label>Kota / Kabupaten<input name="city" required autocomplete="address-level2" placeholder="Kota tujuan"></label>
+        <label>Kode pos<input name="postal" autocomplete="postal-code" placeholder="Kode pos"></label>
+        <label class="full">Catatan pesanan (opsional)<textarea name="note" placeholder="Warna, variasi, atau catatan lainnya"></textarea></label>
+        <div class="full"><button class="primary" type="submit">Buat ringkasan pesanan</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+const products=[
+{id:1,name:"Earbuds Wireless",category:"Audio",price:179000,emoji:"🎧",desc:"Audio praktis untuk aktivitas sehari-hari."},
+{id:2,name:"Keyboard Mechanical",category:"Komputer",price:349000,emoji:"⌨️",desc:"Keyboard nyaman untuk kerja dan gaming."},
+{id:3,name:"Mouse Wireless",category:"Komputer",price:129000,emoji:"🖱️",desc:"Mouse ringkas dengan koneksi nirkabel."},
+{id:4,name:"Charger USB-C",category:"Daya",price:99000,emoji:"🔌",desc:"Aksesori pengisian daya untuk perangkat kompatibel."},
+{id:5,name:"Power Bank",category:"Daya",price:219000,emoji:"🔋",desc:"Daya cadangan saat sedang bepergian."},
+{id:6,name:"Speaker Bluetooth",category:"Audio",price:259000,emoji:"🔊",desc:"Temani waktu santai dengan musik favorit."},
+{id:7,name:"Webcam HD",category:"Komputer",price:289000,emoji:"📷",desc:"Untuk rapat online dan belajar jarak jauh."},
+{id:8,name:"Smartwatch",category:"Wearable",price:399000,emoji:"⌚",desc:"Akses cepat ke fitur harian dari pergelangan tangan."}
+];
+let cart=[];
+const rupiah=n=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(n);
+const productRoot=document.getElementById("products");
+function renderProducts(query=""){
+ productRoot.innerHTML="";
+ const list=products.filter(p=>(p.name+" "+p.category+" "+p.desc).toLowerCase().includes(query.toLowerCase()));
+ if(!list.length){productRoot.innerHTML='<p class="empty">Produk tidak ditemukan.</p>';return}
+ list.forEach(p=>{
+  const card=document.createElement("article");card.className="product";
+  const visual=document.createElement("div");visual.className="visual";visual.textContent=p.emoji;visual.setAttribute("aria-hidden","true");
+  const info=document.createElement("div");info.className="product-info";
+  const cat=document.createElement("div");cat.className="category";cat.textContent=p.category;
+  const title=document.createElement("h3");title.textContent=p.name;
+  const desc=document.createElement("p");desc.className="description";desc.textContent=p.desc;
+  const price=document.createElement("p");price.className="price";price.textContent=rupiah(p.price);
+  const btn=document.createElement("button");btn.className="add";btn.textContent="Tambah ke keranjang";btn.onclick=()=>addToCart(p.id);
+  info.append(cat,title,desc,price,btn);card.append(visual,info);productRoot.append(card);
+ });
+}
+function addToCart(id){const item=cart.find(i=>i.id===id);if(item)item.qty++;else cart.push({id,qty:1});renderCart();document.getElementById("cart-count").textContent=cart.reduce((s,i)=>s+i.qty,0)}
+function changeQty(id,delta){const item=cart.find(i=>i.id===id);if(!item)return;item.qty+=delta;if(item.qty<=0)cart=cart.filter(i=>i.id!==id);renderCart();document.getElementById("cart-count").textContent=cart.reduce((s,i)=>s+i.qty,0)}
+function total(){return cart.reduce((sum,i)=>sum+products.find(p=>p.id===i.id).price*i.qty,0)}
+function renderCart(){
+ const root=document.getElementById("cart-content"),area=document.getElementById("checkout-area");
+ area.hidden=cart.length===0;
+ if(!cart.length){root.innerHTML='<div class="empty">Keranjang masih kosong. Silakan pilih produk terlebih dahulu.</div>';return}
+ root.innerHTML="";
+ cart.forEach(i=>{const p=products.find(x=>x.id===i.id);const row=document.createElement("div");row.className="cart-row";
+ const left=document.createElement("div");left.innerHTML="<strong></strong><small></small>";left.children[0].textContent=p.name;left.children[1].textContent=rupiah(p.price)+" per item";
+ const controls=document.createElement("div");controls.style.textAlign="right";controls.innerHTML='<div class="qty"><button type="button" aria-label="Kurangi">−</button><span></span><button type="button" aria-label="Tambah">+</button></div><button type="button" class="remove">Hapus</button>';
+ controls.querySelector("span").textContent=i.qty;controls.querySelectorAll(".qty button")[0].onclick=()=>changeQty(i.id,-1);controls.querySelectorAll(".qty button")[1].onclick=()=>changeQty(i.id,1);controls.querySelector(".remove").onclick=()=>changeQty(i.id,-i.qty);
+ row.append(left,controls);root.append(row);
+ });
+ const sum=document.createElement("div");sum.className="total";sum.innerHTML="<span>Total sementara</span><span></span>";sum.lastElementChild.textContent=rupiah(total());root.append(sum);
+}
+const overlay=document.getElementById("cart-overlay");
+document.getElementById("open-cart").onclick=()=>{renderCart();overlay.classList.add("open")};
+document.getElementById("close-cart").onclick=()=>overlay.classList.remove("open");
+overlay.addEventListener("click",e=>{if(e.target===overlay)overlay.classList.remove("open")});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")overlay.classList.remove("open")});
+document.getElementById("search").addEventListener("input",e=>renderProducts(e.target.value));
+document.getElementById("checkout-form").addEventListener("submit",e=>{
+ e.preventDefault();if(!cart.length)return;
+ const d=new FormData(e.currentTarget);
+ const lines=cart.map(i=>{const p=products.find(x=>x.id===i.id);return `- ${p.name} x${i.qty}: ${rupiah(p.price*i.qty)}`}).join("\n");
+ const summary=`RINGKASAN PESANAN — NOVA STORE\n\nNama: ${d.get("name")}\nTelepon: ${d.get("phone")}\nAlamat: ${d.get("address")}\nKota: ${d.get("city")}\nKode pos: ${d.get("postal")||"-"}\n\nProduk:\n${lines}\n\nTotal barang: ${rupiah(total())}\nCatatan: ${d.get("note")||"-"}\n\nStatus: Demo — belum dikirim atau dibayar.`;
+ alert(summary);
+});
+renderProducts();renderCart();
+</script>
+</body>
+</html>
