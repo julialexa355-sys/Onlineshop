@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOVA STORE | Toko Online</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      color: #171717;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 20px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    #cart {
+      background: #fff;
+      color: #111;
+      border: none;
+      border-radius: 8px;
+      padding: 11px 16px;
+      font-weight: bold;
+    }
+
+    .hero {
+      background: #202020;
+      color: white;
+      padding: 65px 7%;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      color: #ccc;
+      line-height: 1.7;
+    }
+
+    main {
+      padding: 40px 7%;
+    }
+
+    .section-title {
+      margin-bottom: 24px;
+      font-size: 26px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .product {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 3px 15px #0000000a;
+    }
+
+    .product img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 4.5;
+      object-fit: cover;
+      background: #eee;
+    }
+
+    .product-info {
+      padding: 15px;
+    }
+
+    .product h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .add-button {
+      width: 100%;
+      border: none;
+      border-radius: 7px;
+      padding: 12px;
+      background: #111;
+      color: white;
+      cursor: pointer;
+    }
+
+    .add-button:hover {
+      background: #444;
+    }
+
+    footer {
+      text-align: center;
+      background: #111;
+      color: #ccc;
+      padding: 25px;
+      margin-top: 30px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .products {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 420px) {
+      header {
+        padding: 16px;
+      }
+
+      .logo {
+        font-size: 19px;
+      }
+
+      .hero, main {
+        padding: 30px 16px;
+      }
+
+      .products {
+        gap: 12px;
+      }
+
+      .product-info {
+        padding: 10px;
+      }
+
+      .product h3 {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">NOVA STORE</div>
+    <button id="cart" type="button">
+      🛒 Keranjang (<span id="cart-count">0</span>)
+    </button>
+  </header>
+
+  <section class="hero">
+    <h1>Temukan Gaya Terbaikmu.</h1>
+    <p>Produk pilihan, tampilan modern, dan pengalaman
+      belanja yang mudah di NOVA STORE.</p>
+  </section>
+
+  <main>
+    <h2 class="section-title">Produk Pilihan</h2>
+    <div class="products" id="products"></div>
+  </main>
+
+  <footer>
+    &copy; 2026 NOVA STORE. Semua hak dilindungi.
+  </footer>
+
+  <script>
+    const products = [
+      {
+        id: 1,
+        name: "Kaos Essential",
+        price: 89000,
+        image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600"
+      },
+      {
+        id: 2,
+        name: "Jaket Streetwear",
+        price: 199000,
+        image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600"
+      },
+      {
+        id: 3,
+        name: "Sneakers Casual",
+        price: 299000,
+        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600"
+      },
+      {
+        id: 4,
+        name: "Tas Minimalis",
+        price: 149000,
+        image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600"
+      }
+    ];
+
+    const cart = [];
+
+    const rupiah = number =>
+      new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        maximumFractionDigits: 0
+      }).format(number);
+
+    const container = document.getElementById("products");
+
+    products.forEach(product => {
+      const card = document.createElement("article");
+      card.className = "product";
+
+      const img = document.createElement("img");
+      img.src = product.image;
+      img.alt = product.name;
+      img.loading = "lazy";
+
+      const info = document.createElement("div");
+      info.className = "product-info";
+
+      const name = document.createElement("h3");
+      name.textContent = product.name;
+
+      const price = document.createElement("p");
+      price.className = "price";
+      price.textContent = rupiah(product.price);
+
+      const button = document.createElement("button");
+      button.className = "add-button";
+      button.textContent = "Tambah ke Keranjang";
+      button.type = "button";
+
+      button.addEventListener("click", () => {
+        const item = cart.find(p => p.id === product.id);
+
+        if (item) {
+          item.quantity++;
+        } else {
+          cart.push({ ...product, quantity: 1 });
+        }
+
+        updateCart();
+      });
+
+      info.append(name, price, button);
+      card.append(img, info);
+      container.appendChild(card);
+    });
+
+    function updateCart() {
+      const count = cart.reduce(
+        (total, item) => total + item.quantity, 0
+      );
+
+      document.getElementById("cart-count").textContent = count;
+    }
+
+    document.getElementById("cart").addEventListener("click", () => {
+      if (cart.length === 0) {
+        alert("Keranjang belanja masih kosong.");
+        return;
+      }
+
+      const details = cart.map(item =>
+        `${item.name} x${item.quantity} = ${
+          rupiah(item.price * item.quantity)
+        }`
+      );
+
+      const total = cart.reduce(
+        (sum, item) => sum + item.price * item.quantity, 0
+      );
+
+      alert(
+        "ISI KERANJANG\n\n" +
+        details.join("\n") +
+        "\n\nTOTAL: " + rupiah(total) +
+        "\n\nIni masih demo, belum pembayaran sungguhan."
+      );
+    });
+  </script>
+
+</body>
+  </html>
+    
